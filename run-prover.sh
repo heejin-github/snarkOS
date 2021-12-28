@@ -9,21 +9,18 @@ then
   exit 1
 fi
 
-echo -e "---------- check snarkos running process ---------\n"
-ps -ef | grep snarkos
 pid=$(pidof snarkos)
 if [ $pid > 0 ]; then
-	echo -e "---------- kill snarkos process ----------\n"
-	kill -15 $pid
-else
-	echo -e "---------- snarkos didn't running now ----------\n"
+    echo -e "---------- check snarkos running process ---------\n"
+    echo -e "---------- kill current snarkos process ----------\n"
+    kill -15 $pid
+    sleep 3
+    echo -e "---------- check snarkos was killed ----------\n"
+    ps -ef | grep snarkos
 fi
-sleep 3
-echo -e "---------- check snarkos was killed ----------\n"
-ps -ef | grep snarkos
 
 rm -rf $HOME/.cargo/bin/snarkos
-cp $PWD/target/release/snarkos $HOME/.cargo/bin/snarkos
-
+cp $PWD/target/debug/snarkos $HOME/.cargo/bin/snarkos
 snarkos --prover $MINER_ADDRESS --pool 95.214.55.117:4132 --verbosity 2 >> /var/log/aleo/aleo.log 2>&1 &
-echo "true"
+echo -e "---------- Run Aleo prover node ----------\n"
+tail -f /var/log/aleo/aleo.log
