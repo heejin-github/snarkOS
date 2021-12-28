@@ -46,3 +46,6 @@ echo "=================================================="
 # Open ports on system
 ufw allow 4132/tcp
 ufw allow 3032/tcp
+
+# Make directory for aleo log
+mkdir -p /var/log/aleo

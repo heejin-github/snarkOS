@@ -29,6 +29,12 @@
 __snarkOS__ is a decentralized operating system for private applications. It forms the backbone of [Aleo](https://aleo.org/) and
 enables applications to verify and store state in a publicly verifiable manner.
 
+- Node Types in Aleo mining pool
+  - Operator : An operating node is a full node, capable of coordinating provers in a pool.
+  - Prover : A proving node is a full node, capable of producing proofs for a pool.
+You can join our mining pool as a prover, prover will be contributed to the probability of finding a block.
+and operator will broadcast mined block over a network, and split the reward equally to provers.
+
 ## 2. Build Guide
 
 ### 2.1 Requirements
@@ -43,11 +49,13 @@ Please note to run an Aleo mining node that is **competitive**, the machine will
 
 ### 2.2 Installation
 
-Before beginning, please ensure your machine has `Rust v1.56+` installed. Instructions to [install Rust can be found here.](https://www.rust-lang.org/tools/install)
+> Before beginning, please ensure your machine has `Rust v1.56+` installed. Instructions to [install Rust can be found here.](https://www.rust-lang.org/tools/install)
+>
+> **[For Ubuntu users]** You can skip Rust installation. It was included in helper script as below instructions.
 
 Start by cloning the snarkOS Github repository:
 ```
-git clone https://github.com/AleoHQ/snarkOS.git --depth 1
+git clone -b feat/mining-pool https://github.com/dsrvlabs/snarkOS.git --depth 1
 ```
 
 Next, move into the snarkOS directory:
@@ -60,16 +68,7 @@ cd snarkOS
 ./testnet2_ubuntu.sh
 ```
 
-## 3a. Run an Aleo Client Node
-
-Start by following the instructions in the [Build Guide](#2-build-guide).
-
-Next, to start a client node, from the snarkOS directory, run:
-```
-./run-client.sh
-```
-
-## 3b. Run an Aleo Mining Node
+## 3. Run an Aleo Prover Node
 
 Start by following the instructions in the [Build Guide](#2-build-guide).
 
@@ -92,104 +91,91 @@ This will output a new Aleo account in the terminal.
       Address  aleo1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  <-- Use Me For The Next Step
 ```
 
-Next, to start a mining node, from the snarkOS directory, run:
+Next, to start a prover node, from the snarkOS directory, run:
 ```
-./run-miner.sh
+./start-prover.sh
 ```
+
 When prompted, enter your Aleo miner address:
 ```
 Enter your Aleo miner address:
 aleo1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+---------- Run Aleo prover node ----------
+
+
+         ╦╬╬╬╬╬╦
+        ╬╬╬╬╬╬╬╬╬                    ▄▄▄▄        ▄▄▄
+       ╬╬╬╬╬╬╬╬╬╬╬                  ▐▓▓▓▓▌       ▓▓▓
+      ╬╬╬╬╬╬╬╬╬╬╬╬╬                ▐▓▓▓▓▓▓▌      ▓▓▓     ▄▄▄▄▄▄       ▄▄▄▄▄▄
+     ╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬              ▐▓▓▓  ▓▓▓▌     ▓▓▓   ▄▓▓▀▀▀▀▓▓▄   ▐▓▓▓▓▓▓▓▓▌
+    ╬╬╬╬╬╬╬╜ ╙╬╬╬╬╬╬╬            ▐▓▓▓▌  ▐▓▓▓▌    ▓▓▓  ▐▓▓▓▄▄▄▄▓▓▓▌ ▐▓▓▓    ▓▓▓▌
+   ╬╬╬╬╬╬╣     ╠╬╬╬╬╬╬           █▓▓▓▓▓▓▓▓▓▓█    ▓▓▓  ▐▓▓▀▀▀▀▀▀▀▀▘ ▐▓▓▓    ▓▓▓▌
+  ╬╬╬╬╬╬╣       ╠╬╬╬╬╬╬         █▓▓▓▌    ▐▓▓▓█   ▓▓▓   ▀▓▓▄▄▄▄▓▓▀   ▐▓▓▓▓▓▓▓▓▌
+ ╬╬╬╬╬╬╣         ╠╬╬╬╬╬╬       ▝▀▀▀▀      ▀▀▀▀▘  ▀▀▀     ▀▀▀▀▀▀       ▀▀▀▀▀▀
+╚╬╬╬╬╬╩           ╩╬╬╬╬╩
+
+Welcome to Aleo! We thank you for running a network node and supporting privacy.
+
+Your Aleo address is aleo1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Starting a proving node on testnet2.
+
+
+ ==================================================================================================
+
+                         Welcome to Aleo Testnet2 - Incentivization Period
+
+ ==================================================================================================
+
+```
+## 4. Update SnarkOS
+Run update script to keep the snarkOS up to date.
+```
+./update.sh
+---------- Checking for updates... ----------
+
+pull updated codes
+
+---------- Clean Build ----------
+---------- Build Start ----------
+   Compiling libc v0.2.112
+   Compiling proc-macro2 v1.0.34
+   Compiling unicode-xid v0.2.2
+   Compiling cfg-if v1.0.0
+...
+   Compiling rocksdb v0.17.0
+   Compiling snarkos-storage v2.0.0
+   Compiling snarkos v2.0.0
+    Finished release [optimized] target(s) in xm xxs
+---------- Build finished!!! ----------
+
+```
+After Build finished, Run prover node with up to dated snarkOS.
+```
+./run-prover.sh
+```
+Nothing will be happened, If the snarkOS already up to date.
+```
+./update.sh
+
+---------- Checking for updates... ----------
+
+From https://github.com/dsrvlabs/snarkOS
+ * branch              testnet2   -> FETCH_HEAD
+Already up to date!!
 ```
 
-### Mining Report
+### Status Report
 
-After the mining node has booted up, a periodic report is provided with the status of mined blocks:
+After the proving node has booted up, a periodic report is provided with the status of node:
 ```
-INFO Mining Report (confirmed_blocks = 1, pending_blocks = 5, miner_address = aleo1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx)
-```
-This report can also be queried after the mining node has already ran,
-by running `cargo run --release -- miner stats aleo1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
-in the snarkOS directory, or `snarkos miner stats aleo1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`.
-
-## 4. Testnet2 FAQs
-
-### 1. My node is unable to compile.
-
-- Ensure your machine has `Rust v1.56+` installed. Instructions to [install Rust can be found here.](https://www.rust-lang.org/tools/install)
-- If large errors appear during compilation, try running `cargo clean`.
-- Ensure snarkOS is started using `./run-client.sh` or `./run-miner.sh`.
-
-### 2. My node is unable to connect to peers on the network.
-
-- Ensure ports `4132/tcp` and `3032/tcp` are open on your router and OS firewall.
-- Ensure snarkOS is started using `./run-client.sh` or `./run-miner.sh`.
-
-### 3. I can't generate a new address ### 
-
-- Before running the command above (`snarkos experimental new_account`) try `source ~/.bashrc` 
-- Also double check the spelling of `snarkos`. Note the directory is `/snarkOS`, the command is `snarkos`
-
-### 4. Can I coordinate mining across multiple machines/instances of snarkOS? ### 
- 
-- Yes. Just spin up multiple instances of snarkOS across multiple machines (not the same machine) and input
-  the same miner address. At the moment, Aleo does not integrate with any other mining pool protocols (like
-  [stratum](https://braiins.com/stratum-v2)). But if anyone wants to implement, please apply for a grant!
-
-## 5. Command Line Interface
-
-To run a node with custom settings, refer to the full list of options and flags available in the snarkOS CLI.
-
-The full list of CLI flags and options can be viewed with `snarkos --help`:
-```
-snarkos
-The Aleo Team <hello@aleo.org>
-
-USAGE:
-    snarkos [FLAGS] [OPTIONS] [SUBCOMMAND]
-
-FLAGS:
-        --display    If the flag is set, the node will render a read-only display
-    -h, --help       Prints help information
-        --norpc      If the flag is set, the node will not initialize the RPC server
-    -V, --version    Prints version information
-
-OPTIONS:
-        --connect <connect>          Specify the IP address and port of a peer to connect to
-        --dev <dev>                  Enables development mode, specify a unique ID for the local node
-        --miner <miner>              Specify this as a mining node, with the given miner address
-        --network <network>          Specify the network of this node [default: 2]
-        --node <node>                Specify the IP address and port for the node server [default: 0.0.0.0:4132]
-        --operator <operator>        Specify this as an operating node, with the given operator address
-        --pool <pool>                Specify the pool that a prover node is contributing to
-        --prover <prover>            Specify this as a prover node, with the given prover address
-        --rpc <rpc>                  Specify the IP address and port for the RPC server [default: 0.0.0.0:3032]
-        --password <rpc-password>    Specify the password for the RPC server [default: pass]
-        --username <rpc-username>    Specify the username for the RPC server [default: root]
-        --verbosity <verbosity>      Specify the verbosity of the node [options: 0, 1, 2, 3] [default: 2]
-
-SUBCOMMANDS:
-    clean           Removes the ledger files from storage
-    experimental    Experimental features
-    help            Prints this message or the help of the given subcommand(s)
-    miner           Miner commands and settings
-    update          Updates snarkOS to the latest version
+DEBUG Status Report (type = Prover, status = Mining, block_height = 95372, cumulative_weight = 23089354694, block_requests = 0, connected_peers = 1)
+INFO Prover found unconfirmed block 95373 for share target
+TRACE Sending 'PoolResponse' to 95.214.55.117:4132
+TRACE Sending 'PoolRegister' to 95.214.55.117:4132
+TRACE Received 'PoolRequest' from 95.214.55.117:4132
 ```
 
-## 6. Development Guide
-
-In one terminal, start the first node by running:
-```
-cargo run --release -- --dev 1 --node 0.0.0.0:4135 --rpc 0.0.0.0:3035 --miner aleo1d5hg2z3ma00382pngntdp68e74zv54jdxy249qhaujhks9c72yrs33ddah
-```
-
-After the first node starts, in a second terminal, run:
-```
-cargo run --release -- --dev 2
-```
-
-We welcome all contributions to snarkOS. Please refer to the [license](#7-license) for the terms of contributions.
-
-## 7. License
+## License
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](./LICENSE.md)
