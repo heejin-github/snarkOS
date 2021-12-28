@@ -2,7 +2,7 @@
 
 echo -e "---------- Checking for updates... ----------\n"
 
-STATUS=$(git pull origin testnet2)
+STATUS=$(git pull)
 
 if [ "$STATUS" != "Already up to date." ]; then
   echo "---------- Clean Build ----------"
