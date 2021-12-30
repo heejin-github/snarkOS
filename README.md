@@ -11,6 +11,7 @@
 ## <a name='TableofContents'></a>Table of Contents
 
 * [1. Overview](#1-overview)
+    * [1.1 Commission](#11-commission)
 * [2. Build Guide](#2-build-guide)
     * [2.1 Requirements](#21-requirements)
     * [2.2 Installation](#22-installation)
@@ -27,6 +28,11 @@ enables applications to verify and store state in a publicly verifiable manner.
   - Prover : A proving node is a full node, capable of producing proofs for a pool.
 You can join our mining pool as a prover, prover will be contributed to the probability of finding a block.
 and operator will broadcast mined block over a network, and split the reward equally to provers.
+
+### 1.1 Commission
+**NO COST, NO COMMISSION**
+
+We'll open our mining pool for all community members, and our mining pool operated at NO COST and NO COMMISSION.
 
 ## 2. Build Guide
 
